@@ -111,7 +111,7 @@ console.log(IMIEnrichmentContact("0398765432(代表)"));
 以下の手順で環境を構築します。
 
 ```
-$ github clone https://github.com/code4sabae/imi-enrichment-contact.git
+$ github clone https://github.com/code4sabae/imi-enrichment-contact-es.git
 ```
 
 ## コマンドラインインターフェイス
