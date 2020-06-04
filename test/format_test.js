@@ -1,12 +1,13 @@
-const format = require("../lib/format");
-const expect = require('chai').expect;
-const fs = require("fs");
+import { describe, it, expect, makeDirname } from "https://taisukef.github.io/denolib/nodelikeassert.mjs"
+import { format } from "../lib/format.mjs";
+const __dirname = makeDirname(import.meta.url)
+
 const spec = __dirname + "/../spec";
 
 describe('imi-enrichment-contact#format', function() {
 
   describe('spec', () => {
-    const json = JSON.parse(fs.readFileSync(`${spec}/004-format.json`, "UTF-8"));
+    const json = JSON.parse(Deno.readTextFileSync(`${spec}/004-format.json`));
     json.forEach(a => {
       it(a.name, function() {
         expect(format(a.input)).deep.equal(a.output["電話番号"]);

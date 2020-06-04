@@ -1,9 +1,9 @@
-#!/usr/bin/env node
+import { TextProtoReader } from "https://deno.land/std/textproto/mod.ts";
+import { BufReader } from "https://deno.land/std/io/bufio.ts";
+import { commandLineArgs } from "https://taisukef.github.io/denolib/commandLineArgs.mjs";
+import { commandLineUsage } from "https://taisukef.github.io/denolib/commandLineUsage.mjs";
 
-const fs = require('fs');
-const commandLineArgs = require('command-line-args');
-const commandLineUsage = require('command-line-usage');
-const enrichment = require("../main");
+import enrichment from "../IMIEnrichmentContact.mjs";
 
 const optionDefinitions = [{
   name: 'help',
@@ -65,15 +65,16 @@ if (options.help) {
 } else if (options.string) {
   console.log(JSON.stringify(enrichment(options.string), null, options.indent));
 } else if (options.file) {
-  const input = JSON.parse(fs.readFileSync(options.file, "UTF-8"));
+  const input = JSON.parse(Deno.readTextFileSync(options.file));
   console.log(JSON.stringify(enrichment(input), null, options.indent));
 } else {
+  const r = new TextProtoReader(new BufReader(Deno.stdin));
   let buffer = "";
-  process.stdin.setEncoding('utf-8');
-  process.stdin.on('data', chunk => {
-    buffer += chunk;
-  }).on('end', () => {
-    const input = JSON.parse(buffer);
-    console.log(JSON.stringify(enrichment(input), null, options.indent));
-  });
+  for (;;) {
+    const line = await r.readLine();
+    if (line === null) { break; }
+    buffer += line + "\n";
+  }
+  const input = JSON.parse(buffer);
+  console.log(JSON.stringify(enrichment(input), null, options.indent));
 }

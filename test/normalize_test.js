@@ -1,5 +1,6 @@
-const normalize = require("../lib/normalize");
-const expect = require('chai').expect;
+import { describe, it, expect, makeDirname } from "https://taisukef.github.io/denolib/nodelikeassert.mjs"
+//import { describe, it, expect, makeDirname } from "./nodelikeassert.mjs"
+import { normalize } from "../lib/normalize.mjs";
 
 describe('imi-enrichment-contact#normalize', function() {
   it(`数字`, () => {

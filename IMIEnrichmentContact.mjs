@@ -1,5 +1,5 @@
-const normalize = require('./lib/normalize');
-const format = require('./lib/format');
+import { normalize } from "./lib/normalize.mjs";
+import { format } from "./lib/format.mjs";
 
 const metadata = function(s, o) {
   if (s["メタデータ"] === undefined) s["メタデータ"] = o;
@@ -65,7 +65,7 @@ const dig = function(src) {
   return main(dst);
 };
 
-module.exports = function(src, options) {
+const enrich = function(src, options) {
   if (typeof src === 'string') {
     return dig({
       "@context": "https://imi.go.jp/ns/core/context.jsonld",
@@ -75,3 +75,5 @@ module.exports = function(src, options) {
   }
   return dig(src);
 };
+
+export default enrich;
